@@ -1,0 +1,31 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+
+int main(void) {
+
+	int score, tmp;
+	scanf("%d", &score);
+
+	tmp = score / 10;
+
+	if (tmp >= 9) {
+		printf("A");
+	}
+	else if (tmp == 8) {
+		printf("B");
+	}
+	else if (tmp == 7) {
+		printf("C");
+	}
+	else if (tmp == 6) {
+		printf("D");
+	}
+	else {
+		printf("F");
+	}
+
+	
+
+	return 0;
+}
