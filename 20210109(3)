@@ -1,0 +1,26 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <limits.h>
+#define LEN 9
+
+int main(void) {
+
+	int max = INT_MIN, index;
+	int arr[LEN] = { 0 };
+
+	for (int i = 0; i < LEN; i++) {
+
+		scanf("%d", &arr[i]);
+
+		if (arr[i] > max) {
+			max = arr[i];
+			index = i;
+		}
+
+	}
+
+	printf("%d\n%d", max, index + 1);
+
+
+	return 0;
+}
