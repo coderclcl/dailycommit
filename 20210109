@@ -1,0 +1,30 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main(void) {
+
+	int N, L, R, newR, initN, len = 0;
+
+	scanf("%d", &N);
+
+	initN = N;
+
+	do {
+
+		len++;
+
+		L = N / 10;
+		R = N % 10;
+
+		newR = (L + R) % 10;
+
+		N = R * 10 + newR;
+
+	} while (N!=initN);
+
+
+	printf("%d", len);
+
+
+	return 0;
+}
