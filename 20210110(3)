@@ -1,0 +1,32 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <limits.h>
+#define LEN 1000
+
+int main(void) {
+
+	int N, M=INT_MIN;
+	double scoreArr[LEN] = { 0 };
+	double total = 0;
+
+	scanf("%d", &N);
+	
+	for (int i = 0; i < N; i++) {
+		scanf("%lf", &scoreArr[i]);
+
+		// 최고점 M구하기
+		if (scoreArr[i] > M) {
+			M = scoreArr[i];
+		}
+	}
+
+	for (int i = 0; i < N; i++) {
+		scoreArr[i] = scoreArr[i] / (double)M * 100;
+		total += scoreArr[i];
+	}
+
+	printf("%lf", total / N);
+
+
+	return 0;
+}
