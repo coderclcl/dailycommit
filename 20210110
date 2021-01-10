@@ -1,0 +1,46 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main(void) {
+
+	int A, B, C, product, r, z=0;
+	bool flag = true;
+
+	int cntArr[10] = { 0 };
+
+	scanf("%d", &A);
+	scanf("%d", &B);
+	scanf("%d", &C);
+
+	product = A * B * C;
+
+	for (int i = 0; i < 9; i++) {
+
+		r = product % 10;
+
+		for (int i = 0; i < 10; i++) {
+			if (r == i) {
+				cntArr[i]++;
+			}
+		}
+
+		product /= 10;
+
+		//자릿수 파악 후 의미없는 0 갯수 파악
+		if (product == 0 && flag == true) {
+			z = 9 - i - 1;
+			flag = false;
+		}
+
+	}
+
+	cntArr[0] -= z;
+
+
+	for (int i = 0; i < 10; i++) {
+		printf("%d\n", cntArr[i]);
+	}
+
+
+	return 0;
+}
