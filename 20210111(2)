@@ -1,0 +1,47 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main(void) {
+
+	int caseNum, studentsNum, total = 0, overAvgNum = 0;
+	double avg = 0;
+	int scoreArr[1000] = { 0 };
+	
+	// 첫째 줄 테스트 케이스 개수 C
+	scanf("%d", &caseNum);
+
+	for (int i = 0; i < caseNum; i++) {
+
+		// 학생의 수 N
+		scanf("%d", &studentsNum);
+
+		for (int j = 0; j < studentsNum; j++) {
+
+			// N명의 점수 입력 
+			scanf("%d", &scoreArr[j]);
+			total += scoreArr[j];
+		}
+
+		// N명의 평균 구하기 
+		avg = (double) total / studentsNum;
+
+		// 평균 넘는 학생 수 세기 
+		for (int j = 0; j < studentsNum; j++) {
+			
+			if (scoreArr[j] > avg) {
+				overAvgNum++;
+			}
+	
+		}
+
+		// 평균 넘는 학생들 비율 구하기 
+		printf("%.3lf%%\n", (double)overAvgNum * 100 / studentsNum);
+		
+		total = 0;
+		overAvgNum = 0;
+
+	}
+
+
+	return 0;
+}
