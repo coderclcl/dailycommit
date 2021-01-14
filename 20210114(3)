@@ -1,0 +1,40 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <math.h>
+#define LEN 1000000
+
+int main(void) {
+
+	long long place, bossDirectorCovers, viceDirectorCovers, total;
+	long long peopleNumArr[LEN] = { 0 };
+
+	scanf("%lld", &place);
+
+	for (int i = 0; i < place; i++) {
+		scanf("%lld", &peopleNumArr[i]);
+	}
+
+	scanf("%lld %lld", &bossDirectorCovers, &viceDirectorCovers);
+
+	// 시험장 수 = 총감독관의 수 이므로 감독관 수는 일단 총감독관 수로 초기화
+	total = place;
+
+	for (int i = 0; i < place; i++) {
+
+		// 총감독관으로 커버안될때
+		if (peopleNumArr[i] >= bossDirectorCovers) {
+			// 각 시험장별 응시자수에서 총감독관이 커버할 수 있는 수를 빼고 부감독관이 커버할 수 있는 수로 나누고 올려서 total에 합
+			total += ceil((double)(peopleNumArr[i] - bossDirectorCovers) / viceDirectorCovers);
+
+		}
+
+
+	}
+
+	printf("%lld", total);
+
+
+	return 0;
+}
+
+// 13458 맞았습니다!
