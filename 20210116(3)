@@ -1,0 +1,63 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string>
+#include <vector>
+
+using namespace std;
+vector<int> solution(vector<int> arr, int divisor);
+
+// https://programmers.co.kr/learn/courses/30/lessons/12910
+
+
+int main(void) {
+
+    vector<int> marr = {3, 2, 6};
+    int mdivisor = 10;
+    vector<int> mresult = solution(marr, mdivisor);
+
+    for (int i = 0; i < mresult.size(); i++) {
+        printf("%d\n", mresult[i]);
+    }
+
+    return 0;
+}
+
+
+
+vector<int> solution(vector<int> arr, int divisor) {
+    vector<int> answer;
+    int tmp;
+
+    // answer 요소 구하기 
+    for (int i = 0; i < arr.size(); i++) {
+        if (arr[i] % divisor == 0) {
+            answer.push_back(arr[i]);
+        }
+    }
+
+
+    // 요소가 하나도 없을 때 -1 넣기
+    if (answer.size() == 0) {
+        answer.push_back(-1);
+    }
+    else {
+
+        // 요소가 있다면 정렬하기 
+        for (int i = 0; i < answer.size() - 1; i++) {
+            for (int j = i + 1; j < answer.size(); j++) {
+
+                if (answer[i] > answer[j]) {
+                    tmp = answer[i];
+                    answer[i] = answer[j];
+                    answer[j] = tmp;
+                }
+
+            }
+        }
+
+    }
+
+    return answer;
+}
+
+// 통과 
