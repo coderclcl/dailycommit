@@ -1,0 +1,39 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#define LEN 10000
+
+// https://www.acmicpc.net/problem/10989
+
+int main(void) {
+
+	int N, num;
+	int arr[LEN] = { 0 }; //index는 수-1을 의미, 각 요소는 등장한 횟수를 의미
+
+
+	scanf("%d", &N);
+
+	for (int i = 0; i < N; i++) {
+
+		// 수를 입력받아서 
+		scanf("%d", &num);
+
+		// 배열에 등장한 횟수 기록 
+		arr[num - 1]++;
+
+	}
+
+	for (int i = 0; i < LEN; i++) {
+
+		// 등장한 횟수만큼
+		for (int j = 0; j < arr[i]; j++) {
+			// 인덱스+1 값(=입력된 수) 출력
+			printf("%d\n", i + 1);
+		}
+
+	}
+
+	return 0;
+}
+
+
+// 통과 
