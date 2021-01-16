@@ -1,0 +1,61 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <string>
+#include <vector>
+
+using namespace std;
+vector<int> solution(vector<int> array, vector<vector<int>> commands);
+
+// https://programmers.co.kr/learn/courses/30/lessons/42748
+
+int main(void) {
+
+    vector<int> marray = { 1, 5, 2, 6, 3, 7, 4 };
+    vector<vector<int>> mcommands = { {2,5,3}, {4,4,1}, {1,7,3} };
+
+    vector<int> manswer = solution(marray, mcommands);
+
+    for (int i = 0; i < manswer.size(); i++) {
+        printf("%d\n", manswer[i]);
+    }
+
+}
+
+
+vector<int> solution(vector<int> array, vector<vector<int>> commands) {
+    vector<int> answer;
+
+    vector<int> tmp;
+    int temp;
+
+    for (int i = 0; i < commands.size(); i++) {
+
+        // 첫번째 스텝 : 자르기 
+        for (int j = commands[i][0] - 1; j < commands[i][1]; j++) {
+            tmp.push_back(array[j]);
+        }
+
+        // 두번째 스텝 : 정렬 
+        for (int j = 0; j < tmp.size()-1; j++) {
+            for (int k = j + 1; k < tmp.size(); k++) {
+                if (tmp[j] > tmp[k]) {
+                    temp = tmp[j];
+                    tmp[j] = tmp[k];
+                    tmp[k] = temp;
+                }
+            }
+        }
+
+        // 세번째 스텝 : 번째 수 구하기  
+        answer.push_back(tmp[commands[i][2]-1]);
+
+        // 벡터 비우기 
+        tmp.clear();
+    }
+
+    return answer;
+}
+
+
+
+
+// 통과 
