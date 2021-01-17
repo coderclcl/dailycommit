@@ -1,0 +1,44 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+// acmicpc.net/problem/3009
+
+int main(void) {
+
+	int xArr[4] = { 0 };
+	int yArr[4] = { 0 };
+
+	int xAnswer, yAnswer;
+
+	for (int i = 0; i < 3; i++) {
+		scanf("%d %d", &xArr[i], &yArr[i]);
+	}
+
+	for (int i = 0; i < 2; i++) {
+
+		for (int j = i + 1; j < 3; j++) {
+			if (xArr[i] == xArr[j]) {
+				xArr[i] = 0;
+				xArr[j] = 0;
+			}
+			if (yArr[i] == yArr[j]) {
+				yArr[i] = 0;
+				yArr[j] = 0;
+			}
+		}
+	}
+
+	for (int i = 0; i < 3; i++) {
+		if (xArr[i] != 0) {
+			xAnswer = xArr[i];
+		}
+		if (yArr[i] != 0) {
+			yAnswer = yArr[i];
+		}
+	}
+
+
+	printf("%d %d", xAnswer, yAnswer);
+
+	return 0;
+}
