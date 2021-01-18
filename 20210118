@@ -1,0 +1,53 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <math.h>
+#include <string>
+#include <vector>
+using namespace std;
+vector<int> solution(int brown, int yellow);
+
+// https://programmers.co.kr/learn/courses/30/lessons/42842
+
+int main(void) {
+
+    vector<int> mresult;
+    
+    mresult = solution(24, 24);
+
+    for (int i = 0; i < mresult.size(); i++) {
+        printf("%d\n", mresult[i]);
+    }
+
+	return 0;
+}
+
+
+vector<int> solution(int brown, int yellow) {
+    vector<int> answer;
+
+    int total, x, y;
+    
+    // brown과 yellow를 더한다 (전체 면적) 
+    total = brown + yellow;
+
+    // 가능한 곱셈 x*y 케이스를 모두 구한다 (범위 : 3 ~ sqrt(전체면적)) -- 한 변은 3 이상이어야 노란색 면적 품을 수 있기 때문
+    for (int i = 3; i < ceil(sqrt(total)+0.5); i++) {
+
+        if (total % i == 0) {
+
+            x = i;
+            y = total / i;
+
+            // x, y에서 2를 뺀 것의 곱셈 결과를 구한다. 그 값이 yellow 면적과 같으면 정답 
+            if ((x - 2) * (y - 2) == yellow) {
+                answer.push_back(y);
+                answer.push_back(x);
+                break;
+            }
+
+        }
+
+    }
+
+    return answer;
+}
