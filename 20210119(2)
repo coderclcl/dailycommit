@@ -1,0 +1,59 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+// https://www.acmicpc.net/problem/2805
+
+int main(void) {
+
+	int trees = 0, need = 0, max=INT_MIN, min=0, mid, answer=0;
+	int* heights;
+
+	scanf("%d %d", &trees, &need);
+
+	// 동적 할당으로 trees 수만큼 배열 만들어서 나무 높이 담기 
+	heights = (int*)malloc(trees * sizeof(int));
+	for (int i = 0; i < trees; i++) {
+		scanf("%d", &heights[i]);
+
+		// 가장 높은 나무 높이 구하기 
+		if (max < heights[i]) {
+			max = heights[i];
+		}
+
+	}
+
+	while (max >= min) {
+
+		long long canGet = 0;
+
+		// 최소값과 최대값(가장 높은 나무 높이) 사이 값으로 잘라서 모은다 
+		mid = (max + min) / 2;
+
+		for (int i = 0; i < trees; i++) {
+			if (heights[i] > mid) {
+				canGet += (heights[i] - mid);
+			}
+		}
+
+		// 가져갈 수 있는 양(canGet)이 필요한 양(need)보다 많으면 기록해두고 최소값을 높인다(min = mid+1)
+		if (canGet >= need) {
+			answer = mid;
+			min = mid+1;
+		}
+		// 가져갈 수 있는 양(canGet)이 필요한 양(need)보다 부족하면 최대값을 낮춘다(max = mid-1)
+		else {
+			max = mid-1;
+		}
+
+	}
+
+	printf("%d", answer);
+
+
+	// 동적 할당 메모리 해제 
+	free(heights);
+
+	return 0;
+}
