@@ -1,0 +1,59 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string>
+#include <vector>
+using namespace std;
+long long solution(int n, vector<int> times);
+
+// https://programmers.co.kr/learn/courses/30/lessons/43238
+
+
+int main(void) {
+
+    long long manswer = solution(6, { 7,10 });
+
+    printf("%lld", manswer);
+
+	return 0;
+}
+
+
+long long solution(int n, vector<int> times) {
+    long long answer = 0;
+
+    // 가장 빠른 총 처리시간 1분이라고 가정 
+    long long max = times[0], min = 1, mid;
+
+    // times 중 최대값을 구한다. (가장 일처리 느린 심사관이 n명 모두 처리하는 시간) 
+    for (int i = 0; i < times.size(); i++) {
+        if (max < times[i]) {
+            max = times[i];
+        }
+    }
+    max = max * n;
+
+    while (min <= max) {
+        long long able = 0;
+
+        // 중간값을 구한다. 
+        mid = (max + min) / 2;
+
+        // mid 시간동안 각 심사관이 처리할 수 있는 명수를 더한다. 
+        for (int i = 0; i < times.size(); i++) {
+            able += mid / times[i];
+        }
+
+        // n명 처리가능하면 최대값을 낮추고(mid-1)
+        if (able >= n) {
+            answer = mid;
+            max = mid - 1;
+        }
+        // n명 처리 불가능하면 최소값을 높인다 (mid+1)
+        else {
+            min = mid + 1;
+        }
+
+    }
+
+    return answer;
+}
