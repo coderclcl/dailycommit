@@ -1,0 +1,17 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+
+// stack을 전역 배열로 선언 
+int stack[10000] = { 0 };
+
+int main(void) {
+
+	int num;
+
+	// 명령 횟수 입력 
+	scanf("%d", &num);
+
+
+	return 0;
+}
