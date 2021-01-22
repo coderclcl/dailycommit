@@ -1,17 +1,128 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAX 10000
+int push(int x);
+int pop(void);
+int size(void);
+bool isEmpty(void);
+int top(void);
 
+//https://www.acmicpc.net/problem/10828
 
 // stack을 전역 배열로 선언 
-int stack[10000] = { 0 };
+int stack[MAX] = { 0 };
+int ptr = 0;
+
 
 int main(void) {
 
-	int num;
+	char** commands;
+	int num, x;
 
-	// 명령 횟수 입력 
+	// 명령 수 입력 
 	scanf("%d", &num);
+
+	// 명령 수만큼 포인터 배열 메모리를 동적 할당 
+	commands = (char**)malloc(num * sizeof(char*));
+	
+	if (commands != NULL) {
+		
+		for (int i = 0; i < num; i++) {
+
+			commands[i] = (char*)malloc(10 * sizeof(char));
+
+			// 명령 입력받기 
+			scanf("%s", commands[i]);
+
+
+			// 문자열 내용에 따라 메서드 호출 
+			if (strcmp(commands[i], "push")==0) {
+				scanf("%d", &x);
+				push(x);
+			}
+			else if (strcmp(commands[i], "pop")==0) {
+				pop();
+			}
+			else if (strcmp(commands[i], "size") == 0) {
+				size();
+			}
+			else if (strcmp(commands[i], "empty") == 0) {
+				isEmpty();
+			}
+			else if (strcmp(commands[i], "top") == 0) {
+				top();
+			}
+
+
+		}
+	}
+
+	// 동적 메모리 할당 해제 
+	for (int i = 0; i < num; i++) {
+		free(commands[i]);
+	}
+
+	free(commands);
 
 
 	return 0;
 }
+
+
+
+int push(int x) {
+
+	return stack[ptr++] = x;
+
+}
+
+
+int pop(void) {
+
+	if (ptr == 0) {
+		printf("-1\n");
+		return -1;
+	}
+	else {
+		printf("%d\n", stack[ptr-1]);
+		return stack[--ptr];
+	}
+}
+
+
+
+int size(void) {
+	printf("%d\n", ptr);
+	return ptr;
+}
+
+
+bool isEmpty(void) {
+
+	bool flag = (ptr <= 0);
+
+	if (flag) {
+		printf("1\n");
+	}
+	else {
+		printf("0\n");
+	}
+
+	return flag;
+}
+
+
+int top(void) {
+
+	if (ptr == 0) {
+		printf("-1\n");
+		return -1;
+	}
+	else {
+		printf("%d\n", stack[ptr-1]);
+		return stack[ptr-1];
+	}
+}
+
