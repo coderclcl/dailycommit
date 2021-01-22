@@ -1,0 +1,150 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define MAX 2000000
+int push(int x);
+int pop(void);
+int size(void);
+bool isEmpty(void);
+int front(void);
+int back(void);
+
+//https://www.acmicpc.net/problem/18258
+
+
+int queue[MAX] = { 0 }; // queue를 전역 배열로 선언 
+int top = 0; // 큐 가장 앞 부분 가리킴 
+int bottom = 0; // 큐 가장 아랫부분 가리킴 
+int cnt = 0; // 전체 갯수 
+
+int main(void) {
+
+	char** commands;
+	int num, x;
+
+	// 명령 수 입력 
+	scanf("%d", &num);
+
+	// 명령 수만큼 포인터 배열 메모리를 동적 할당 
+	commands = (char**)malloc(num * sizeof(char*));
+
+	if (commands != NULL) {
+
+		for (int i = 0; i < num; i++) {
+
+			commands[i] = (char*)malloc(10 * sizeof(char));
+
+			// 명령 입력받기 
+			scanf("%s", commands[i]);
+
+			// 문자열 내용에 따라 메서드 호출 
+			if (strcmp(commands[i], "push") == 0) {
+				scanf("%d", &x);
+				push(x);
+			}
+			else if (strcmp(commands[i], "pop") == 0) {
+				pop();
+			}
+			else if (strcmp(commands[i], "size") == 0) {
+				size();
+			}
+			else if (strcmp(commands[i], "empty") == 0) {
+				isEmpty();
+			}
+			else if (strcmp(commands[i], "front") == 0) {
+				front();
+			}
+			else if (strcmp(commands[i], "back") == 0) {
+				back();
+			}
+
+		}
+
+		// 동적 메모리 할당 해제 
+		for (int i = 0; i < num; i++) {
+			free(commands[i]);
+		}
+
+	}
+
+	// 동적 메모리 할당 해제 
+	free(commands);
+
+	return 0;
+}
+
+
+int push(int x) {
+	cnt++;
+	return queue[bottom++] = x;
+}
+
+
+int pop(void) {
+
+	int tmp;
+
+	if (top==bottom) {
+		printf("-1\n");
+		return -1;
+	}
+	else {
+		printf("%d\n", queue[top]);
+		cnt--;
+		return queue[top++];
+	}
+
+}
+
+
+int size(void) {
+	printf("%d\n", cnt);
+	return cnt;
+}
+
+
+bool isEmpty(void) {
+
+	bool flag = (cnt==0);
+
+	// 비어있으면
+	if (flag) {
+		printf("1\n");
+	}
+
+	// 안 비어있으면 
+	else {
+		printf("0\n");
+	}
+
+	return flag;
+}
+
+
+int front(void) {
+
+	int front = queue[top];
+
+	if (top == bottom) {
+		front = -1;
+	}
+
+	printf("%d\n", front);
+	return front;
+
+}
+
+
+int back(void) {
+
+	int back = queue[bottom -1];
+
+	if (top == bottom) {
+		back = -1;
+	}
+
+	printf("%d\n", back);
+	return back;
+
+}
