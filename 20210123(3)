@@ -1,0 +1,85 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+int solution(vector<int> priorities, int location);
+bool isExist(vector<int> priorities, int front, int rear, int priority);
+
+//https://programmers.co.kr/learn/courses/30/lessons/42587
+
+
+int main(void) {
+
+    vector<int> mpriorities = { 1, 2, 3 };
+    int mlocation = 0;
+
+    int manswer = solution(mpriorities, mlocation);
+
+    printf("%d", manswer);
+
+    return 0;
+}
+
+
+
+int solution(vector<int> priorities, int location) {
+    
+    int answer = 0, size = priorities.size(), front = 0, rear = size - 1;
+    vector<int> print;
+
+
+    // 중요도 i를 하나씩 감소하면서 검사
+    for (int i = 9; i > 0; i--) {
+
+        // 중요도 i가 front에서 rear까지 존재하는지 검사
+        while (isExist(priorities, front, rear, i)) {
+
+            // front%size 가 가리키는 값이 중요도 i와 같으면 인덱스를 print 배열에 추가, front 증가해서 범위 줄이기
+            if (priorities[front % size] == i) {
+
+                print.push_back(front % size);
+                priorities[front % size] = 0;
+                front++;
+
+            }
+            // front%size 가 가리키는 값이 중요도 i와 같지 않으면 front++, rear++ 해서 범위 그대로 이동
+            else {
+                front++;
+                rear++;
+
+                // 이미 빠진 구간이면 rear 더 증가
+                while (priorities[rear % size] == 0) {
+                    rear++;
+                }
+
+            }
+    
+        }
+
+    }
+
+    for (int i = 0; i < print.size(); i++) {
+        if (location == print[i]) {
+            answer = i + 1;
+        }
+    }
+    
+    return answer;
+}
+
+
+bool isExist(vector<int> priorities, int front, int rear, int priority) {
+
+    bool flag = false;
+    int vSize = priorities.size();
+    
+    for (int i = front; i <= rear; i++) {
+        if (priorities[i%vSize] == priority) {
+            flag = true;
+            break;
+        }
+    }
+
+    return flag;
+
+}
