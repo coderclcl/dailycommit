@@ -1,0 +1,76 @@
+#include <string>
+#include <vector>
+#include <math.h>
+
+using namespace std;
+vector<int> solution(vector<int> progresses, vector<int> speeds);
+
+//https://programmers.co.kr/learn/courses/30/lessons/42586
+
+
+int main(void) {
+
+    vector<int> mprogresses = { 95, 90, 99, 99, 80, 99 };
+    vector<int> mspeeds = { 1, 1, 1, 1, 1, 1 };
+
+    vector<int> manswer = solution(mprogresses, mspeeds);
+
+    for (int i = 0; i < manswer.size(); i++) {
+        printf("%d ", manswer[i]);
+    }
+
+    return 0;
+}
+
+
+
+vector<int> solution(vector<int> progresses, vector<int> speeds) {
+    
+    vector<int> answer;
+    vector<int> days;
+
+    int todo = 0;
+
+    // 각 작업별 걸리는 기간을 배열 days로 만든다 
+    for (int i = 0; i < progresses.size(); i++) {
+
+        double take = (ceil)((double)(100 - progresses[i]) / speeds[i]);
+        days.push_back(take);
+
+    }
+
+    // 일수 i를 하나씩 증가시켜서 콤보로 작거나 같으면 answer에 추가한다
+    for (int i = 0; i < 100; i++) {
+
+        int cnt = 0;
+
+        for (int j = todo; j < days.size(); j++) {
+
+            if (days[j] <= i) {
+
+                cnt++;
+
+                // 마지막 데이터 처리 
+                if (j == days.size() - 1) {
+                    answer.push_back(cnt);
+                    return answer;
+                }
+
+            }
+            else {
+
+                // 최근 검사하던 구간 표시
+                todo = j;
+                
+                if (cnt != 0) {
+                    answer.push_back(cnt);
+                }
+                break;
+            }
+
+        }
+
+    }
+
+    return answer;
+}
