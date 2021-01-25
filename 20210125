@@ -1,0 +1,60 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int makeStar(int N);
+
+int last = 0;
+
+int main(void) {
+
+	int N = 0;
+
+	scanf("%d", &N);
+
+	last = N;
+
+	makeStar(N);
+
+
+	return 0;
+}
+
+
+int makeStar(int N) {
+
+
+	int third = N / 3;
+
+	
+
+	// 절반에서는 공백 출력 
+	// 나머지에서는 별 출력 
+
+	for (int i = 0; i < N; i++) {
+
+		for (int j = 0; j < N; j++) {
+
+			if (third <= i && i < third *2 && third <= j && j < third *2) {
+				printf(" ");
+			}
+			else {
+				printf("*");
+
+			}
+
+			if (j == last - 1) {
+
+				printf("\n");
+			}
+
+		}
+
+
+
+
+	}
+
+
+
+	return 0;
+
+}
