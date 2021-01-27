@@ -1,1 +1,15 @@
-test
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+// https://www.acmicpc.net/problem/11654
+
+int main(void) {
+
+	char answer;
+	scanf("%c", &answer);
+
+	printf("%d", answer);
+
+	return 0;
+
+}
