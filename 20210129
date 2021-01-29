@@ -1,1 +1,60 @@
-test
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+// https://www.acmicpc.net/problem/1157
+
+int main(void) {
+
+	char word[1000000];
+	int alphabet[26] = { 0 };
+	char answer = '?';
+	int i = 0;
+	int max = 0, index = 0;
+	int isDup = 0;
+
+	scanf("%s", word);
+
+
+
+	// 단어를 돌면서 각 알파벳 출연 횟수를 알파벳 배열에 담는다. 
+	while (word[i] != '\0') {
+
+
+		for (int k = 0; k < 26; k++) {
+			if ((int)(word[i]) == 97 + k || (int)(word[i]) == 65 + k) {
+				alphabet[k]++;
+				break;
+			}
+		}
+		i++;
+
+	}
+
+
+	// 최대출연횟수를 구한다 
+	for (int i = 0; i < 26; i++) {
+
+		if (max < alphabet[i]) {
+			max = alphabet[i];
+			index = i;
+		}
+
+	}
+
+	// 중복 체크 
+	for (int i = 0; i < 26; i++) {
+
+		if (max == alphabet[i]) {
+			isDup++;
+		}
+
+	}
+
+	if (isDup == 1) {
+		answer = index + 65;
+	}
+
+	printf("%c", answer);
+
+	return 0;
+}
