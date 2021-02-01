@@ -1,1 +1,24 @@
-test
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+// https://www.acmicpc.net/problem/1152
+
+int main(void) {
+
+	int answer = 0, i = 0;
+	char string[1000001] = { 0 };
+
+	scanf("%[^\n]", string);
+
+	char* ptr = strtok(string, " ");
+
+	while (ptr != NULL) {
+		answer++;
+		ptr = strtok(NULL, " ");
+	}
+
+	printf("%d", answer);
+
+	return 0;
+}
