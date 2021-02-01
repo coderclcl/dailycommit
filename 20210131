@@ -1,1 +1,28 @@
-test
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <math.h>
+
+// https://www.acmicpc.net/problem/2908
+
+int main(void) {
+
+	int number[5] = { 0 };
+	int answer = 0;
+
+	scanf("%d", &number[0]);
+	scanf("%d", &number[1]);
+
+	for (int i = 0; i < 3; i++) {
+		number[2] += (number[0] % 10)*pow(10, 2 - i);
+		number[0] /= 10;
+
+		number[3] += (number[1]%10)*pow(10, 2 - i);
+		number[1] /= 10;
+	}
+
+	answer = number[2] > number[3] ? number[2] : number[3];
+
+	printf("%d", answer);
+
+	return 0;
+}
