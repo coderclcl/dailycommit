@@ -1,1 +1,42 @@
-test
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+// https://www.acmicpc.net/problem/5622
+
+int main(void) {
+
+	char word[16];
+	int i = 0, answer = 0;
+
+	scanf("%s", word);
+
+	// 전화번호 구하기 
+	while (word[i] != '\0') {
+		//printf("%c\n", word[i]);
+
+		if ('A' <= word[i] && word[i] <= 'C') {
+			answer += 3;
+		}else if ('D' <= word[i] && word[i] <= 'F') {
+			answer += 4;
+		}else if ('G' <= word[i] && word[i] <= 'I') {
+			answer += 5;
+		}else if ('J' <= word[i] && word[i] <= 'L') {
+			answer += 6;
+		}else if ('M' <= word[i] && word[i] <= 'O') {
+			answer += 7;
+		}else if ('P' <= word[i] && word[i] <= 'S') {
+			answer += 8;
+		}else if ('T' <= word[i] && word[i] <= 'V') {
+			answer += 9;
+		}else if ('W' <= word[i] && word[i] <= 'Z') {
+			answer += 10;
+		}
+
+		i++;
+	}
+
+	printf("%d", answer);
+
+
+	return 0;
+}
