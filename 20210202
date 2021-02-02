@@ -1,1 +1,82 @@
-test
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+// https://www.acmicpc.net/problem/2941
+
+int main(void) {
+
+
+	char croatianWord[101] = { 0 };
+	int answer = 0, i = 0;
+
+	scanf("%s", croatianWord);
+
+	while (croatianWord[i] != '\0') {
+
+		answer++;
+
+		if (croatianWord[i] == 'c') {
+
+			if (croatianWord[i + 1] == '=') {
+				i += 2;
+				continue;
+			}
+			else if (croatianWord[i + 1] == '-') {
+				i += 2;
+				continue;
+			}
+
+		}
+		else if (croatianWord[i] == 'd') {
+
+			if (croatianWord[i + 1] == 'z' && croatianWord[i + 2] == '=') {
+				i += 3;
+				continue;
+			}
+			else if (croatianWord[i + 1] == '-') {
+				i += 2;
+				continue;
+			}
+
+		}
+		else if (croatianWord[i] == 'l') {
+
+			if (croatianWord[i + 1] == 'j') {
+				i += 2;
+				continue;
+			}
+
+		}
+		else if (croatianWord[i] == 'n') {
+
+			if (croatianWord[i + 1] == 'j') {
+				i += 2;
+				continue;
+			}
+
+		}
+		else if (croatianWord[i] == 's') {
+
+			if (croatianWord[i + 1] == '=') {
+				i += 2;
+				continue;
+			}
+
+		}
+		else if (croatianWord[i] == 'z') {
+
+			if (croatianWord[i + 1] == '=') {
+				i += 2;
+				continue;
+			}
+
+		}
+
+		i++;
+	}
+
+
+	printf("%d", answer);
+
+	return 0;
+}
