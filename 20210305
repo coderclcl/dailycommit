@@ -1,0 +1,5 @@
+// Linear Algebra 
+
+// row picture : Take one row at a time and plot all the points that satisfy the corresponding equation. 
+// column picture : Take one column at a time 
+// matrix form : Algebra way to look at the problem 
