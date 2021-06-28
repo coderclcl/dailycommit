@@ -1,0 +1,54 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+// https://www.acmicpc.net/problem/1912
+
+int main() {
+
+    int num, sum = 0, result = -1000;
+    int* arr;
+
+    scanf("%d", &num);
+
+    arr = (int*)malloc(num * sizeof(int));
+
+    for (int i = 0; i < num; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    for (int i = 0; i < num; i++) {
+        result = arr[i] > result ? arr[i] : result;
+    }
+
+    if (result <= 0) {
+        // 가장 큰 값이 음수 : 프로그램 종료 
+    }
+    else {
+
+        for (int i = 0; i < num; i++) {
+
+            if (sum >= 0) {
+                sum += arr[i];
+                result = sum > result ? sum : result;
+            }
+            else {
+                sum = 0;
+                sum += arr[i];
+                result = sum > result ? sum : result;
+            }
+
+        }
+
+    }
+
+    printf("%d", result);
+
+    return 0;
+}
+
+
+// 해결 방식 : 1 2 3 -5 4 을 생각해서 
+// 일단 결과값을 제일 큰 수(4)로 세팅한다음 
+// 그 제일 큰 수가 음수면 나머지도 음수니까 더해봤자 작아진다 - 프로그램 종료 
+// 만약 양수가 있으면 합을 구한다 : 계속 더하다가 sum 값이 음수되면 0으로 초기화하고 다시 더하는 방식 사용. 중간중간 계속 결과값 바꿔주기 
