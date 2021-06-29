@@ -1,0 +1,51 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// https://programmers.co.kr/learn/courses/30/lessons/64061
+
+int solution(vector<vector<int>> board, vector<int> moves) {
+    int answer = 0;
+
+    // 담는 basket 을 만든다. 
+    vector<int> basket;
+
+    // moves 숫자 - 1 해당 열에서 0이 아닌 숫자를 basket에 넣는다. 
+    for (int i = 0; i < moves.size(); i++) {
+
+        for (int j = 0; j < board.size(); j++) {
+
+            if (board[j][moves[i] - 1] != 0) {
+
+                basket.push_back(board[j][moves[i] - 1]);
+
+                // basket에 넣을 때마다 basket의 맨 끝 요소와 맨 끝 - 1 요소를 비교해서 같으면 둘을 지운다. 그리고 answer + 2 한다. 
+                if (basket.size() >= 2 && basket[basket.size() - 1] == basket[basket.size() - 2]) {
+                    basket.pop_back();
+                    basket.pop_back();
+                    answer += 2;
+                }
+
+                board[j][moves[i] - 1] = 0;
+                break;
+
+            }
+
+        }
+
+    }
+
+    return answer;
+}
+
+int main(void) {
+
+    int result;
+
+    result = solution({ {0, 0, 0, 0, 0},{0, 0, 1, 0, 3},{0, 2, 5, 0, 1},{4, 2, 4, 4, 2},{3, 5, 1, 3, 1} }, { 1, 5, 3, 5, 1, 2, 1, 4 });
+
+    printf("%d\n", result);
+
+    return 0;
+}
