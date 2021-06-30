@@ -1,0 +1,59 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+// https://www.acmicpc.net/problem/1920
+
+public class Main {
+	
+	public static void main(String[] args) {
+
+		int N, M, check;
+		Main s = new Main();
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		N = scanner.nextInt();
+		int arr[] = new int[N];
+		
+		for(int i=0; i<N; i++) {
+			arr[i] = scanner.nextInt();
+		}
+		
+		Arrays.sort(arr);
+		
+		M = scanner.nextInt();
+		
+		for(int i=0; i<M; i++) {
+			// 입력 받는 대로 바로 찾아서 여부 출력 - 정렬된 자료구조에서 이분탐색 이용해서 빠르게 서치하기 
+			check = scanner.nextInt();
+			System.out.println(s.solution(arr, check));
+		}
+		
+	}//end of main 
+	
+	
+	int solution(int arr[], int check) {
+		
+		int flag = 0;
+		int min = 0, mid, max = arr.length-1;
+		
+		// up & down 으로 찾는다. 
+		// arr의 중간값으로 찍고 up이면 위의 중간값, down이면 아래의 중간값 식으로 - 이 때 범위 정해주기 
+		while(min<max) {
+			mid = (min + max)/2;
+			
+			if(check == arr[mid] || check == arr[min] || check == arr[max]) {
+				flag = 1;
+				break;
+			}else if(check < arr[mid]) {
+				max = mid - 1;
+			}else {
+				min = mid + 1;
+			}
+		}
+		
+		return flag;
+		
+	}//end of solution 
+	
+}
