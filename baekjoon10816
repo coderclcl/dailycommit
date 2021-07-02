@@ -1,0 +1,136 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Arrays;
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
+// https://www.acmicpc.net/problem/10816
+
+public class Main {
+	public static void main(String[] args) throws IOException {
+		
+		int N, M, chk, k = -1;
+		
+		String line;
+		
+		Main m = new Main();
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		N = Integer.parseInt(br.readLine());
+		
+		line = br.readLine();
+		
+		int arr[] = new int[N];
+		
+		StringTokenizer st = new StringTokenizer(line);
+		
+		for(int i=0; i<N; i++) {
+			arr[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		Arrays.sort(arr);
+		
+		M = Integer.parseInt(br.readLine());
+		
+		int checkArr[] = new int[M];
+		
+		line = br.readLine();
+		StringTokenizer s = new StringTokenizer(line);
+		
+		for(int i=0; i<M; i++) {
+			chk = Integer.parseInt(s.nextToken());
+			checkArr[i] = m.solution(arr, chk);
+		}
+		
+		for(int i=0; i<M; i++) {
+			bw.append(checkArr[i] + " ");
+		}
+		
+		bw.flush();
+		bw.close();
+		br.close();
+		
+	}// end of main method
+	
+	
+	int solution(int arr[], int num) {
+		
+		int start = 1, end = 0;
+		
+		// num이 처음 시작된 index를 찾는다. 
+		start = findStart(arr, num);
+		
+		//System.out.println(num + "의 start : " + start);
+		
+		// num이 마지막으로 나타난 index를 찾는다. 
+		end = findEnd(arr, num);
+		//System.out.println(num + "의 end : " + end);
+		
+		return end - start + 1;
+		
+	}// end of solution method 
+	
+	
+	int findStart(int arr[], int num) {
+		
+		int start = 1;
+		int min = 0, mid, max = arr.length -1;
+		
+		// up & down으로 찾는다 
+		// 발견하면 일단 저장해두고 낮춰가면서 다시 찾는다 
+		while(min < max) {
+			
+			mid = (min + max)/2;
+			
+			if(num == arr[mid]) {
+				start = mid;
+				max = mid - 1;
+			}else if(num < arr[mid]) {
+				max = mid - 1;
+			}else {
+				min = mid + 1;
+			}
+			
+		}
+		
+		if(0<= min && min < arr.length && num == arr[min]) {
+			start = min;
+		}
+		
+		return start;
+	}
+	
+	int findEnd(int arr[], int num) {
+		
+		int end = 0;
+		int min = 0, mid, max = arr.length - 1;
+		
+		while(min < max) {
+			mid = (min + max)/2;
+			
+			if(num == arr[mid]) {
+				end = mid;
+				min = mid + 1;
+			}else if(num < arr[mid]) {
+				max = mid - 1;
+			}else {
+				min = mid + 1;
+			}
+		}
+		
+		if(0 <= max && max < arr.length && num == arr[max]) {
+			end = max;
+		}
+		
+		return end;
+		
+	}
+	
+	
+	
+}// end of Main class 
