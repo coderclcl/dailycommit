@@ -1,0 +1,89 @@
+package programmers_프린터;
+
+import java.util.Arrays;
+import java.util.Stack;
+
+
+// https://programmers.co.kr/learn/courses/30/lessons/42587?language=java
+
+public class Main {
+	
+	public static void main(String[] args) {
+		
+		int answer;
+		
+		Solution s = new Solution();
+		
+		int[] priorities = {1, 1, 9, 1, 1, 1};
+		int location = 0;
+		
+		answer = s.solution(priorities, location);
+		
+		System.out.println(answer);
+		
+	}
+
+}
+
+
+
+class Solution {
+    public int solution(int[] priorities, int location) {
+        
+    	int cnt = 1;
+        
+    	final int INF = 101;
+    	
+    	int[] printOrder = new int[priorities.length];
+    	int[] prioritiesCpy = new int[priorities.length];
+    	Stack<Integer> ptCpy = new Stack<Integer>();
+    	
+    	// priorities 의 인쇄 순서를 나타내는 배열 printOrder를 만들고 다 무한대로 세팅한다.
+    	for(int i=0; i<priorities.length; i++) {
+    		printOrder[i] = INF;
+    		prioritiesCpy[i] = priorities[i]; // 깊은 복사 
+    	}
+    	
+    	Arrays.sort(prioritiesCpy);
+    	
+    	// priorities 를 복사해서 정렬한 다음 stack에 넣는다.(top에 제일 큰 수가 오도록) 
+    	for(int i=0; i<prioritiesCpy.length; i++) {
+    		ptCpy.add(prioritiesCpy[i]);
+    	}
+    	
+    	// priorities 돌면서 stack 의 맨 위와 같으면 printOrder에 번호를 매기고 stack에서 pop()하고, 작으면 그냥 무한대로 방치한다. 
+    	// printOrder 에 무한대 요소가 없을 때까지 반복 
+    	while(!isComplete(printOrder, INF) && !ptCpy.isEmpty()) {
+    		
+    		for(int i=0; i<priorities.length; i++) {
+    			
+    			if(!ptCpy.isEmpty() && priorities[i] == ptCpy.peek()) {
+    				ptCpy.pop();
+    				printOrder[i] = cnt++;
+    			}
+    			
+    		}
+    		
+    	}
+    	
+        return printOrder[location];
+    }
+    
+    
+    boolean isComplete(int[] printOrder, int INF) {
+    	
+    	boolean flag = true;
+    	
+    	for(int i=0; i<printOrder.length; i++) {
+    		if(printOrder[i] == INF) {
+    			flag = false; 
+    			break;
+    		}
+    	}
+    	
+    	return flag;
+    	
+    }
+    
+    
+}
