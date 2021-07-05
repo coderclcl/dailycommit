@@ -1,0 +1,88 @@
+package programmers_기능개발;
+
+import java.util.Stack;
+import java.util.Vector;
+
+// https://programmers.co.kr/learn/courses/30/lessons/42586
+
+public class Main {
+	
+	public static void main(String[] args) {
+		
+		Solution s = new Solution();
+		
+		int[] answer;
+		
+		int[] progresses = {93, 30, 55};
+		int[] speeds = {1, 30, 5};
+		
+		answer = s.solution(progresses, speeds);
+		
+		for(int i=0; i<answer.length; i++) {
+			System.out.println(answer[i]);
+		}
+		
+	}
+
+}
+
+
+class Solution {
+    public int[] solution(int[] progresses, int[] speeds) {
+        
+    	
+    	int[] answer = {};
+    	
+    	Vector<Integer> tmp = new Vector<Integer>(); // answer 대신 사용 
+    	
+    	Stack<Double> duration = new Stack<>(); // 처리에 걸리는 시간(날짜) 
+    	
+    	int date = 0, cnt = 0, j = -1;
+    	double chk;
+    	
+    	
+    	for(int i = progresses.length - 1; i >= 0; i--) {
+    		duration.push((100.0 - progresses[i])/speeds[i]); // 걸리는 날짜 stack 에 넣는다. 
+    	}
+    	
+    	
+    	while(!duration.isEmpty()) {
+    		
+    		chk = duration.pop();
+
+    		// 현재 날짜보다 더 크면 아직 완료 아니니까 다시 넣고 현재 날짜++ 
+    		if(chk > date) {
+    			
+    			duration.push(chk);
+    			date++;
+    		
+    			if(cnt!=0) {
+    				tmp.add(cnt);
+    				cnt = 0;
+    			}
+    			
+    		// 현재 날짜 이하이면 처리 완료 
+    		}else {
+    			cnt++;
+    		}
+    		
+    	}
+   
+    	if(cnt!=0) {
+    		tmp.add(cnt);
+			cnt = 0;
+		}
+        
+    	answer = new int[tmp.size()];
+        
+    	for(Integer i : tmp) {
+    		answer[++j] = i;
+    	}
+    	
+        return answer;
+    }
+}
+
+
+
+
