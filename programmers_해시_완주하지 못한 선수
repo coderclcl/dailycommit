@@ -1,0 +1,45 @@
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+// https://programmers.co.kr/learn/courses/30/lessons/42576
+// 완주하지 못한 선수
+public class Main {
+
+	public static void main(String[] args) {
+			
+		Solution s = new Solution();
+		
+		String[] participant = {"eden"};
+		String[] completion = {};
+		
+		System.out.println(s.solution(participant, completion));
+		
+	}
+	
+}
+
+class Solution {
+    public String solution(String[] participant, String[] completion) {
+    	
+    	String answer = "";
+    	
+        Arrays.sort(participant);
+        Arrays.sort(completion);
+        
+        for(int i=0; i<completion.length; i++) {
+        	if(!completion[i].equals(participant[i])) {
+        		answer = participant[i];
+        		break;
+        	}
+        }
+    	
+        if(answer.equals("")) {
+        	answer = participant[participant.length-1];
+        }
+    	
+    	
+        
+        return answer;
+    }
+}
