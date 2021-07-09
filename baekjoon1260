@@ -1,0 +1,120 @@
+import java.awt.List;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+// https://www.acmicpc.net/problem/1260
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	static boolean[] visited; 
+	static boolean[] bvisited; 
+	
+	static Queue<Integer> queue = new LinkedList<Integer>();
+	
+	public static void main(String[] args) throws IOException {
+		
+		int N, M, V;
+		int start, end;
+		
+		String line;
+		
+		line = br.readLine();
+		
+		StringTokenizer st = new StringTokenizer(line);
+		
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		V = Integer.parseInt(st.nextToken());
+		
+		Vector<Integer> arr[] = new Vector[N+1];
+		
+		visited = new boolean[N+1];
+		bvisited = new boolean[N+1];
+		
+		for(int i=0; i<N+1; i++) {
+			arr[i] = new Vector<Integer>();
+		}
+		
+		// 간선들 입력받아서 저장한다 
+		//DFS 는 Linked List처럼 계속 따라가서 출력하고 없으면 돌아오는 방식 
+		//BFS 는 1부터 연결된 것 차례대로 다 출력 
+		for(int i=0; i<M; i++) {
+			
+			line = br.readLine();
+			st = new StringTokenizer(line);
+			
+			start = Integer.parseInt(st.nextToken());
+			end = Integer.parseInt(st.nextToken());
+			
+			arr[start].add(end);
+			arr[end].add(start);
+			
+		}
+		
+		
+		for(int i=1; i<=N; i++) {
+			if(arr[i] != null) {
+				Collections.sort(arr[i]); // vector 오름차순 정렬 
+			}
+		}
+		
+		dfs(arr, V);
+		
+		bw.append("\n");
+		
+		bfs(arr, V);
+		
+		bw.flush();
+		bw.close();
+		br.close();
+		
+	}
+	
+	public static void dfs(Vector<Integer> arr[], int V) throws IOException {
+		
+		if(visited[V]) {
+			return;
+		}
+		
+		visited[V] = true;
+		bw.append(V + " ");
+		for(int val : arr[V]) {
+			if(!visited[val]) {
+				dfs(arr, val);
+			}
+		}
+		
+	}
+	
+	public static void bfs(Vector<Integer> arr[], int V) throws IOException {
+
+		queue.add(V);
+		bvisited[V] = true;
+		
+		while(!queue.isEmpty()) {
+			
+			int x = queue.poll();
+			bw.append(x + " ");
+			
+			for(int y : arr[x]) {
+				if(!bvisited[y]) {
+					bvisited[y] = true;
+					queue.add(y);
+				}
+			}
+			
+		}
+		
+	}
+
+}
