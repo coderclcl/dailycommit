@@ -1,0 +1,103 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Collections;
+import java.util.Vector;
+
+// https://www.acmicpc.net/problem/2667
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	static int arr[][];
+	static Vector<Integer> cntVector = new Vector<Integer>();
+	
+	static int num; // 총 단지수 
+
+	public static void main(String[] args) throws IOException {
+		
+		// 이차원 배열에 받아서 넣는다 
+		// dfs 방식으로 connected component 갯수 구한다. 
+		// 방문한 곳은 -1으로 세팅 
+		
+		String line;
+		
+		num = Integer.parseInt(br.readLine());
+		
+		arr = new int[num][num];
+		
+		for(int i=0; i<num; i++) {
+			
+			line = br.readLine();
+			
+			for(int j=0; j<num; j++) {
+				arr[i][j] = line.charAt(j) - '0';
+			}
+			
+		}
+		
+		
+		for(int i=0; i<num; i++) {
+			for(int j=0; j<num; j++) {
+				
+				if(arr[i][j] == 1) {
+					cntVector.add(0);
+					dfs(i,j);
+				}
+				
+			}
+		}
+		
+		// 배열 순회하다가 1마주치면 vector에 add하고 bfs 시작 => 갯수 구하기 
+		// bfs 끝나면 다시 순회
+		
+		Collections.sort(cntVector);
+		
+		System.out.println(cntVector.size());
+		for(Integer val : cntVector) {
+			System.out.println(val);
+		}
+		
+		bw.flush();
+		bw.close();
+		br.close();
+			
+		
+	}
+	
+	public static void dfs(int i, int j) {
+		
+		if(arr[i][j] == 0) {
+			return;
+		}
+		
+		//System.out.println(i+", "+j+"방문");
+		
+		arr[i][j] = -1;
+		cntVector.set(cntVector.size()-1, cntVector.lastElement()+1);
+		
+		
+		while(j-1>=0 && arr[i][j-1]==1) {
+			dfs(i, j-1);
+		}
+
+		while(j+1<num && arr[i][j+1]==1) {
+			dfs(i, j+1);
+		}
+		
+		while((i-1>=0 && arr[i-1][j]==1)) {
+			dfs(i-1, j);
+		}
+		
+		while((i+1<num && arr[i+1][j]==1)) {
+			dfs(i+1, j);
+		}
+		
+	}
+	
+	
+
+}
