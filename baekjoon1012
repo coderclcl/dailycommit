@@ -1,0 +1,135 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+// https://www.acmicpc.net/problem/1012
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	static int T, M, N, K;
+	
+	static int arr[][];
+	
+	static int answer[];
+	
+	static Queue<Integer> queue = new LinkedList<Integer>();
+	
+	public static void main(String[] args) throws IOException {
+		
+		String line;
+		int r, c;
+		
+		T = Integer.parseInt(br.readLine());
+		
+		answer = new int[T];
+		
+		
+		for(int t=0; t<T; t++) {
+			
+			line = br.readLine();
+			
+			StringTokenizer st = new StringTokenizer(line);
+			
+			M = Integer.parseInt(st.nextToken());
+			N = Integer.parseInt(st.nextToken());
+			K = Integer.parseInt(st.nextToken());
+			
+			arr = new int[M][N];
+			
+			for(int i=0; i<M; i++) {
+				for(int j=0; j<N; j++) {
+					arr[i][j] = 0;
+				}
+			}
+			
+			
+			for(int i=0; i<K; i++) {
+				line = br.readLine();
+				st = new StringTokenizer(line);
+				
+				r = Integer.parseInt(st.nextToken());
+				c = Integer.parseInt(st.nextToken());
+				
+				arr[r][c] = 1;
+				
+			}
+			
+			
+			// 지렁이 갯수 구해서 answer[t] 배열에 저장한다. 
+			// bfs 방식으로 구해본다 
+			answer[t] = bfs();
+		}
+		
+		for(int t=0; t<T; t++) {
+			bw.append(answer[t]+"\n");
+		}
+		
+		bw.flush();
+		bw.close();
+		br.close();
+		
+	}
+	
+	public static int bfs() {
+		int worms = 0;
+		
+		// 배열 순회하다가 1인 곳 만나면 worms++하고  
+		// 연관된 애들 queue에 다 넣고 -1로 세팅 
+		// 큐에서 연관된 애들 다 queue에 넣고 -1로 세팅 
+		for(int i=0; i<M; i++) {
+			for(int j=0; j<N; j++) {
+				if(arr[i][j] == 1) {
+					worms++;
+					//System.out.println(i+", "+j+"방문");
+					arr[i][j] = -1; // 방문 했음 표시
+					queue.add(i);
+					queue.add(j);
+					
+					
+					while(!queue.isEmpty()) {
+						
+						int x = queue.poll();
+						int y = queue.poll();
+						
+						if(x+1<M && arr[x+1][y] == 1) {
+							arr[x+1][y] = -1;
+							queue.add(x+1);
+							queue.add(y);
+						}
+
+						if(x-1>=0 && arr[x-1][y] == 1) {
+							arr[x-1][y] = -1;
+							queue.add(x-1);
+							queue.add(y);
+						}
+						
+						if(y+1<N && arr[x][y+1] == 1) {
+							arr[x][y+1] = -1;
+							queue.add(x);
+							queue.add(y+1);
+						}
+
+						if(y-1>=0 && arr[x][y-1] == 1) {
+							arr[x][y-1] = -1;
+							queue.add(x);
+							queue.add(y-1);
+						}
+						
+					}
+					
+					
+				}
+			}
+		}
+		
+		return worms;
+	}
+
+}
