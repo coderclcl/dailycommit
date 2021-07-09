@@ -1,0 +1,59 @@
+import java.util.Scanner;
+import java.util.Vector;
+
+// https://www.acmicpc.net/problem/2606
+public class Main {
+	
+	static Vector<Integer>[] arr;
+	static boolean[] visited;
+	static int answer = -1;
+	
+	public static void main(String[] args) {
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		int V, E, start, end;
+		
+		V = scanner.nextInt();
+		E = scanner.nextInt();
+		
+		arr = new Vector[V+1];
+		visited = new boolean[V+1];
+		
+		for(int i=0; i<V+1; i++) {
+			arr[i] = new Vector<Integer>();
+		}
+		
+		for(int i=0; i<E; i++) {
+			start = scanner.nextInt();
+			end = scanner.nextInt();
+			
+			arr[start].add(end);
+			arr[end].add(start);
+			
+		}
+		
+		dfs(1);
+		
+		System.out.println(answer);
+	}
+	
+	
+	public static void dfs(int V) {
+		
+		if(visited[V]) {
+			return;
+		}
+		
+		visited[V] = true;
+		answer++;
+		
+		for(int val : arr[V]) {
+			if(!visited[val]) {
+				dfs(val);
+			}
+		}
+		
+	}
+
+}
