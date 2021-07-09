@@ -1,0 +1,96 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.Stack;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+
+// https://www.acmicpc.net/problem/14003
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	
+	public static void main(String[] args) throws IOException {
+		
+		int N;
+		int [] Aarr;
+		int [] indexArr;
+		
+		Vector<Integer> pickVector = new Vector<Integer>();
+		
+		String line;
+		
+		line = br.readLine();
+		
+		N = Integer.parseInt(line);
+		
+		Aarr = new int[N + 1];
+		indexArr = new int[N + 1];
+		
+		line = br.readLine();
+		
+		StringTokenizer st = new StringTokenizer(line);
+		
+		for(int i=1; i<=N; i++) {
+			Aarr[i] = Integer.parseInt(st.nextToken());
+		}
+		
+		pickVector.add(Integer.MIN_VALUE);
+		
+		for(int i=1; i<=N; i++) {
+			
+			int left = 1;
+			int right = pickVector.size() - 1;
+			
+			if(Aarr[i] > pickVector.get(pickVector.size()-1)) {
+				pickVector.add(Aarr[i]);
+				indexArr[i] = pickVector.size()-1;
+			}
+			else {
+				
+				while(left < right) {
+					int mid = (left + right)/2;
+					
+					if(pickVector.get(mid)>=Aarr[i]) {
+						right = mid;
+					}else {
+						left = mid + 1;
+					}
+				}
+					
+					pickVector.set(right, Aarr[i]);
+					indexArr[i] = right;
+			}
+			
+		}
+		bw.append(pickVector.size()-1 + "\n");
+		
+		
+		Stack<Integer> stack = new Stack<Integer>();
+		
+		int index = pickVector.size() - 1;
+		
+		for(int i=N; i>0; i--) {
+			if(indexArr[i]==index) {
+				index--;
+				stack.push(Aarr[i]);
+			}
+		}
+		
+		while(!stack.isEmpty()) {
+			bw.append(stack.pop()+" ");
+		}
+		
+		
+		bw.flush();
+		bw.close();
+		br.close();
+		
+	}
+	
+}
