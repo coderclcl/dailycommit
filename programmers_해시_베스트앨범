@@ -1,0 +1,129 @@
+package programmers_해시_베스트앨범;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.*;
+
+
+// https://programmers.co.kr/learn/courses/30/lessons/42579
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Solution s = new Solution();
+		
+		String[] genres = {"classic", "pop", "classic", "pop", "classic", "classic"};
+		int[] plays = {400, 600, 150, 600, 500, 500};
+		
+		int[] answer = s.solution(genres, plays);
+		
+		for(int val : answer) {
+			System.out.println(val);
+		}
+		
+	}
+
+}
+
+
+
+class Solution {
+    public int[] solution(String[] genres, int[] plays) {
+    	
+        int[] answer = {};
+        
+        HashMap<String, Integer> totalMap = new HashMap<String, Integer>();
+        HashMap<String, Integer> firstMap = new HashMap<String, Integer>();
+        HashMap<String, Integer> secondMap = new HashMap<String, Integer>();
+        
+        for(int i=0; i<genres.length; i++) {
+        	if(!totalMap.containsKey(genres[i])) {
+        		totalMap.put(genres[i], plays[i]);
+        		firstMap.put(genres[i], i);
+        	}else {
+        		
+        		// 총합 저장 
+        		totalMap.replace(genres[i], totalMap.get(genres[i]) + plays[i]);
+        		
+        		// firstMap의 값보다 큰 경우 
+        		if(plays[i] > plays[firstMap.get(genres[i])]) {
+        			
+        			// first는 second로 옮기고 first에 저장 
+        			if(!secondMap.containsKey(genres[i])) {
+        				secondMap.put(genres[i], firstMap.get(genres[i]));
+        			}else {
+        				secondMap.replace(genres[i], firstMap.get(genres[i]));
+        			}
+        			
+        			firstMap.replace(genres[i], i);
+        			
+       			// firstMap보다 작지만 secondMap이 비었거나 secondMap보다는 큰 경우 
+        		}else if(plays[i] <= plays[firstMap.get(genres[i])] && !secondMap.containsKey(genres[i])) {
+        			// second 에 저장 
+        			secondMap.put(genres[i], i);
+        			
+        		}else if(plays[i] <= plays[firstMap.get(genres[i])] && plays[i] > plays[secondMap.get(genres[i])]) {
+        			// second 에 저장 
+        			secondMap.replace(genres[i], i);
+        		}
+        		
+        	}
+        }
+        
+        
+        Vector<Integer> tmpVector = new Vector<Integer>();
+        Vector<String> keyVector = new Vector<String>();
+        Vector<Integer> answerVector = new Vector<Integer>();
+        
+        
+        // totalMap의 크기 순으로 인덱스 배열 만든다
+        totalMap.forEach((key, value) -> {
+        	tmpVector.add(value);
+        });
+        
+        Collections.sort(tmpVector, Comparator.reverseOrder());
+        
+        // 크기순으로 key를 담는다 
+        for(Integer val : tmpVector) {
+        	
+        	keyVector.add(getKey(totalMap, val));
+        	
+        }
+        
+        for(String key : keyVector) {
+        	
+        	if(firstMap.containsKey(key)) {
+        		answerVector.add(firstMap.get(key));
+        	}
+        	if(secondMap.containsKey(key)) {
+        		answerVector.add(secondMap.get(key));
+        		
+        	}
+        	
+        }
+        
+        answer = new int[answerVector.size()];
+        int k = 0;
+        
+        for(Integer val : answerVector) {
+        	answer[k++] = val;
+        }
+        
+        return answer;
+    }
+    
+    public static String getKey(HashMap<String, Integer> totalMap, Integer value) {
+    	
+    	for(String key : totalMap.keySet()) {
+    		
+    		if(totalMap.get(key).equals(value)) {
+    			return key;
+    		}
+    		
+    	}
+    	
+    	return null;
+    }
+    
+}
