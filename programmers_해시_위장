@@ -1,0 +1,61 @@
+package programmers_해시_위장;
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Vector;
+
+// https://programmers.co.kr/learn/courses/30/lessons/42578
+// 위장
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Solution s = new Solution();
+		
+		String[][] clothes = {{"yellowhat", "headgear"}, {"bluesunglasses", "eyewear"}, {"green_turban", "headgear"}};
+		
+		int answer = s.solution(clothes);
+		
+		System.out.println(answer);
+		
+	}
+	
+}
+
+
+class Solution {
+    public int solution(String[][] clothes) {
+        int answer = 1;
+        
+        Arrays.sort(clothes, Comparator.comparing(val1->val1[1]));
+        
+        HashMap<String, String> map = new HashMap<String, String>();
+        
+        Vector<Integer> pieces = new Vector<Integer>();
+        
+        int mapSize;
+        
+        for(int i=0; i<clothes.length; i++) {
+
+        		mapSize = map.size();
+        		
+        		map.put(clothes[i][1], clothes[i][0]);
+        		
+        		if(map.size() > mapSize) {
+        			pieces.add(1);
+        		}else {
+        			pieces.set(pieces.size()-1, pieces.get(pieces.size()-1)+1);
+        		}
+        		
+        }
+        
+        for(Integer val : pieces) {
+        	answer *= (val+1);
+        }
+        
+        answer -= 1;
+        
+        return answer;
+    }
+}
