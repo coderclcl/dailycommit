@@ -1,0 +1,94 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+// https://www.acmicpc.net/problem/1021
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	
+	public static void main(String[] args) throws IOException {
+		
+		int N;
+		int M;
+		int answer = 0;
+		int front = 0; // 현재 큐의 출구에 있는 indexs
+		int target = 0; // 내가 뽑을 애의 index
+		int qSize = 0;
+		
+		Vector<Integer> queue = new Vector<Integer>(); // 큐
+		Vector<Integer> vector = new Vector<Integer>(); // 뽑아내려는 수의 위치 
+		
+		
+		String line;
+		
+		line = br.readLine();
+		
+		StringTokenizer st = new StringTokenizer(line);
+		
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		
+		line = br.readLine();
+		StringTokenizer st1 = new StringTokenizer(line);
+		
+		for(int i=0; i<M; i++) {
+			vector.add(Integer.parseInt(st1.nextToken()));
+		}
+		
+		
+		for(int i=1; i<=N; i++) {
+			queue.add(i);
+		}
+		
+		// front 움직이면서 연산 여부 판단 
+		// 움직임은 앞 뒤 중 더 짧은 루트로 이동 
+		while(!vector.isEmpty()) {
+			
+			target = queue.indexOf(vector.get(0));
+			
+			int diff = target - front;
+			
+			// front와 target 값 같으면 해당 요소를 큐와 vector에서 없애주기 
+			if(diff == 0) {
+				
+				//System.out.println(vector.get(0) + "제거!");
+				
+			}else {
+				if(0<diff && diff <= queue.size()/2) {
+					answer += diff;
+					front += diff;
+					front %= queue.size();
+				}else if(diff < 0 && diff >= (-1)*queue.size()/2 ) {
+					answer += (-1)*diff;
+					front += diff;
+				}else if(diff < 0 && diff < (-1)*queue.size()/2) {
+					answer += (target + queue.size() - front);
+					front = target;
+				}
+				else {
+					answer += (front + queue.size() - target);
+					front = target;
+				}
+			}
+			vector.remove(0);
+			queue.remove(front);
+		}
+		
+		bw.append(answer + "");
+		
+		bw.flush();
+		bw.close();
+		br.close();
+	}
+
+}
