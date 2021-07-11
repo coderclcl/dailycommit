@@ -1,0 +1,66 @@
+import java.util.Scanner;
+
+// https://www.acmicpc.net/problem/2231
+public class Main {
+	
+	public static void main(String[] args) {
+		
+		int N;
+		boolean flag = true;
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		N = scanner.nextInt();
+		
+		// 1,000,000개의 데이터니까 O(n)으로 완전탐색하면 2초안에 끝날듯 
+		
+		for(int i=1; i<=N; i++) {
+			
+			if(isRight(N, i)) {
+				System.out.println(i);
+				flag = false;
+				break;
+			}
+			
+		}
+		
+		if(flag) {
+			System.out.println(0);
+		}
+		
+	}
+	
+	public static boolean isRight(int N, int i) {
+		
+		boolean result = false;
+		
+		N = N - i;
+		
+		// 만약 N이 i의 자릿수의 합이면 맞다 
+		
+		if(N == getEachNumSum(i)) {
+			result = true;
+		}
+		
+		
+		return result;
+	}
+	
+	
+	public static int getEachNumSum(int i) {
+		
+		int sum = 0;
+		
+		while(i>0) {
+			
+			sum += i%10;
+			i /= 10;
+			
+		}
+		
+		return sum;
+		
+	}
+	
+
+}
