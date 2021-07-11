@@ -1,0 +1,75 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+
+// https://www.acmicpc.net/problem/1697
+public class Main {
+	
+	static int N;
+	static int K;
+	
+	static final int SIZE = 100000;
+	static Queue<Integer> queue = new LinkedList<Integer>();
+	static boolean visited[] = new boolean[SIZE+1];
+	static int sec = 0;
+	static int bunch = 0;
+	
+	public static void main(String[] args) {
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		N = scanner.nextInt();
+		K = scanner.nextInt();
+		
+		queue.add(N);
+		bunch++;
+		visited[N] = true;
+		
+		int tmp = 0;
+		int num = 0;
+		
+		// 2배, +1, -1 을 하면서 시간 측정해서 큐에 넣기 
+		// 똑같은 수 만나면 끝 
+		// 그때까지의 시간 반환 
+		
+		while(!queue.isEmpty()) {
+			
+			for(int i=0; i<bunch; i++) {
+				num = queue.poll();
+				
+				if(num*2<=SIZE+1 && !visited[num*2]) {
+					queue.add(num*2);
+					visited[num*2] = true;
+					tmp++;
+				}
+				if(num-1>=0 && !visited[num-1]) {
+					queue.add(num-1);
+					visited[num-1] = true;
+					tmp++;
+				}
+				if(num+1<=SIZE && !visited[num+1]) {
+					queue.add(num+1);
+					visited[num+1] = true;
+					tmp++;
+				}
+				
+				if(num==K) {
+					queue.clear();
+					break;
+				}
+				
+			}
+			
+			sec++;
+			bunch = tmp;
+			tmp = 0;
+			
+		}
+		
+		sec--;
+		
+		System.out.println(sec);
+		
+	}
+
+}
