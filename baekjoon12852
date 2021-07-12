@@ -1,0 +1,104 @@
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+import java.util.Stack;
+import java.util.Vector;
+
+// https://www.acmicpc.net/problem/12852
+public class Main {
+	
+	public static void main(String[] args) throws IOException {
+		
+		int N;
+		int cnt = 0;
+		int bunch = 0;
+		int tmp = 0;
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		Vector<Integer> vector = new Vector<Integer>();
+		Queue<Integer> queue = new LinkedList<Integer>();
+		Stack<Integer> stack = new Stack<Integer>();
+		int arr[] = new int[1000000];
+		boolean visited[] = new boolean[1000001];
+		int qIdx = 0;
+		int arrIdx = 0;
+		
+		N = scanner.nextInt();
+		
+		queue.add(N);
+		queue.add(-1);
+		visited[N] = true;
+		bunch++;
+		
+		while(!queue.isEmpty()) {
+			
+			for(int i=0; i<bunch; i++) {
+				
+				int num = queue.poll();
+				int idx = queue.poll();
+				
+				//System.out.println("나의 Idx: " + arrIdx +", num: "+num+", 선조 idx: "+idx);
+				
+				if(num%3==0 && !visited[num/3]) {
+					queue.add(num/3);
+					queue.add(arrIdx);
+					visited[num/3] = true;
+					tmp++;
+				}
+				if(num%2==0 && !visited[num/2]) {
+					queue.add(num/2);
+					queue.add(arrIdx);
+					visited[num/2] = true;
+					tmp++;
+				}
+				if(num-1>=1 && !visited[num-1]) {
+					queue.add(num-1);
+					queue.add(arrIdx);
+					visited[num-1] = true;
+					tmp++;
+				}
+				
+				arr[arrIdx++] = num;
+				arr[arrIdx++] = idx;
+				
+				if(num==1) {
+					queue.clear();
+					break;
+				}
+				
+			}
+			
+			//System.out.println("cnt: " + cnt);
+			cnt++;
+			
+			bunch = tmp;
+			tmp = 0;
+		}
+		
+		System.out.println(cnt-1);
+		
+		arrIdx -= 2;
+		
+		while(arrIdx!=-1) {
+			//bw.append(arr[arrIdx]+" ");
+			stack.add(arr[arrIdx]);
+			arrIdx = arr[arrIdx+1];
+		}
+		
+		while(!stack.isEmpty()) {
+			bw.append(stack.pop()+" ");
+		}
+		
+		
+		bw.flush();
+		bw.close();
+		
+	}
+
+}
