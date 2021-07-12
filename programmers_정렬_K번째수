@@ -1,0 +1,55 @@
+package programmers_정렬_K번째수;
+
+import java.util.Arrays;
+
+// https://programmers.co.kr/learn/courses/30/lessons/42748
+public class Main {
+	
+	public static void main(String[] args) {
+		
+		Solution s = new Solution();
+		
+		int[] array = {1, 5, 2, 6, 3, 7, 4};
+		int[][] commands = {{2, 5, 3},{4, 4, 1},{1, 7, 3}};
+		int[] answer = s.solution(array, commands);
+		
+		for(int i=0; i<answer.length; i++) {
+			System.out.println(answer[i]);
+		}
+		
+		
+	}
+
+}
+
+
+class Solution {
+    public int[] solution(int[] array, int[][] commands) {
+    	
+        int[] answer = new int[commands.length];
+        int[] tmpArr;
+        int start, end, want;
+        
+        for(int i=0; i<commands.length; i++) {
+        	
+        	start = commands[i][0]-1;
+        	end = commands[i][1]-1;
+        	want = commands[i][2]-1;
+        	
+        	// sort할 배열을 만든다 
+        	tmpArr = new int[end-start+1];
+        	
+        	// 해당 원소들만 넣어서 sort 
+        	for(int j=0; j<tmpArr.length; j++) {
+        		tmpArr[j] = array[start+j];
+        	}
+        	Arrays.sort(tmpArr);
+        	
+        	// 원하는 부분을 answer[] 에 담는다. 
+        	answer[i] = tmpArr[want];
+        	
+        }
+        
+        return answer;
+    }
+}
