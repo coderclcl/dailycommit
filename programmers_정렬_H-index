@@ -1,0 +1,53 @@
+import java.util.Arrays;
+
+// https://programmers.co.kr/learn/courses/30/lessons/42747
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Solution s = new Solution();
+		
+		int[] citations = {3, 0, 6, 1, 5};
+		
+		int answer = s.solution(citations);
+		
+		System.out.println(answer);
+	}
+	
+}
+
+
+
+class Solution {
+    public int solution(int[] citations) {
+        int answer = 0;
+        
+        Arrays.sort(citations);
+        
+        for(int i=citations[citations.length-1]; i>=0; i--) {
+        	
+        	int cnt = 0;
+        	
+        	for(int j=citations.length-1; j>=0; j--) {
+        		if(citations[j] >= i) {
+        			cnt++;
+        		}else {
+        			break;
+        		}
+        	}
+        	
+        	if(cnt >= i) {
+        		answer = i;
+        		break;
+        	}
+        	
+        	cnt = 0;
+        }
+        
+        if(citations[citations.length-1] == 0) {
+        	answer = 0;
+        }
+        
+        return answer;
+    }
+}
