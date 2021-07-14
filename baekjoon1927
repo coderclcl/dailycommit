@@ -1,0 +1,49 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.PriorityQueue;
+import java.util.Vector;
+
+// https://www.acmicpc.net/problem/1927
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	public static void main(String[] args) throws IOException {
+		
+		int N, item;
+		
+		PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+		Vector<Integer> vector = new Vector<Integer>(); 
+		
+		N = Integer.parseInt(br.readLine());
+		
+		for(int i=0; i<N; i++) {
+			
+			item = Integer.parseInt(br.readLine());
+			
+			if(item!=0) {
+				queue.add(item);
+			}else {
+				if(queue.isEmpty()) {
+					vector.add(0);
+				}else {
+					vector.add(queue.poll());
+				}
+			}
+		}
+		
+		for(Integer val : vector) {
+			bw.append(val+"\n");
+		}
+		
+		bw.flush();
+		bw.close();
+		br.close();
+		
+	}
+
+}
