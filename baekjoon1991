@@ -1,0 +1,102 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+// https://www.acmicpc.net/problem/1991
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	static StringTokenizer st;
+	static int[] leftChild, rightChild;
+	
+	public static void main(String[] args) throws IOException {
+		
+		// 왼쪽 자식, 오른쪽 자식 따로 배열 만들어 저장한다 
+		int N;
+		char parent, lchild, rchild;
+		
+		N = Integer.parseInt(br.readLine());
+		
+		leftChild = new int[N];
+		rightChild = new int[N];
+		
+		for(int i=0; i<N; i++) {
+			
+			st = new StringTokenizer(br.readLine());
+			
+			parent = st.nextToken().charAt(0);
+			lchild = st.nextToken().charAt(0);
+			rchild = st.nextToken().charAt(0);
+			
+			if(lchild!='.') {
+				leftChild[parent-'A'] = lchild - 'A';
+			}
+			if(rchild!='.') {
+				rightChild[parent-'A'] = rchild - 'A';
+			}
+			
+		}
+		
+		preorder(0);
+		bw.append("\n");
+		inorder(0);
+		bw.append("\n");
+		postorder(0);
+		
+		bw.flush();
+		bw.close();
+		br.close();
+		
+		
+	}
+	
+	
+	public static void preorder(int v) throws IOException {
+		
+		bw.append((char) (v+'A'));
+		
+		if(leftChild[v]!=0) {
+			preorder(leftChild[v]);
+		}
+		
+		if(rightChild[v]!=0) {
+			preorder(rightChild[v]);
+		}
+		
+	}
+	
+	public static void inorder(int v) throws IOException{
+		
+		if(leftChild[v]!=0) {
+			inorder(leftChild[v]);
+		}
+		
+		bw.append((char) (v+'A'));
+		
+		if(rightChild[v]!=0) {
+			inorder(rightChild[v]);
+		}
+		
+	}
+	
+	public static void postorder(int v) throws IOException{
+		
+		if(leftChild[v]!=0) {
+			postorder(leftChild[v]);
+		}
+		
+		if(rightChild[v]!=0) {
+			postorder(rightChild[v]);
+		}
+		
+		bw.append((char) (v+'A'));
+		
+	}
+	
+
+}
