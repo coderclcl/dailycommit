@@ -1,0 +1,100 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+// https://www.acmicpc.net/problem/2630
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	static StringTokenizer st;
+	
+	static int N;
+	static int[][] arr;
+	static int blue;
+	static int white;
+	
+	public static void main(String[] args) throws IOException {
+		
+		N = Integer.parseInt(br.readLine());
+		arr = new int[N][N];
+		blue = 0;
+		white = 0;
+		int Xstart = 0, Xend = N-1, Ystart = 0, Yend = N-1;
+		
+		for(int i=0; i<N; i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0; j<N; j++) {
+				arr[i][j] = Integer.parseInt(st.nextToken());
+			}
+		}
+		
+		// 구간을 넣어서 통과 못하면 구간 잘라서 통과시킨다 
+		cut(Xstart, Xend, Ystart, Yend);
+		
+		bw.append(white+"\n");
+		bw.append(blue+"");
+		bw.flush();
+		bw.close();
+		br.close();
+		
+	}
+	
+	
+	public static void cut(int Xstart, int Xend, int Ystart, int Yend) {
+		
+		int size = Xend - Xstart + 1;
+		
+		if(!isBlueColor(Xstart, Xend, Ystart, Yend) && !isWhiteColor(Xstart, Xend, Ystart, Yend)) {
+			size /= 2;
+			cut(Xstart, Xstart+size-1, Ystart, Ystart+size-1);
+			cut(Xstart, Xstart+size-1, Ystart+size, Yend);
+			cut(Xstart+size, Xend, Ystart, Ystart+size-1);
+			cut(Xstart+size, Xend, Ystart+size, Yend);
+		}else if(isBlueColor(Xstart, Xend, Ystart, Yend)) {
+			blue++;
+		}else if(isWhiteColor(Xstart, Xend, Ystart, Yend)) {
+			white++;
+		}
+		
+		
+	}
+	
+	
+	public static boolean isBlueColor(int Xstart, int Xend, int Ystart, int Yend) {
+		
+		
+		for(int i=Xstart; i<=Xend; i++) {
+			
+			for(int j=Ystart; j<=Yend; j++) {
+				if(arr[i][j]!=1) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+		
+	}
+	
+	public static boolean isWhiteColor(int Xstart, int Xend, int Ystart, int Yend) {
+		
+		
+		for(int i=Xstart; i<=Xend; i++) {
+			
+			for(int j=Ystart; j<=Yend; j++) {
+				if(arr[i][j]!=0) {
+					return false;
+				}
+			}
+		}
+		
+		return true;
+		
+	}
+
+}
