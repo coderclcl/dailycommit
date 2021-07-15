@@ -1,0 +1,74 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+// https://www.acmicpc.net/problem/11725
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	static StringTokenizer st;
+	static ArrayList<Integer>[] arr;
+	static int parent[];
+	static boolean visited[];
+	
+	public static void main(String[] args) throws IOException {
+		
+		int N, node1, node2; 
+		
+		N = Integer.parseInt(br.readLine());
+		
+		arr = new ArrayList[N+1];
+		parent = new int[N+1];
+		visited = new boolean[N+1];
+		
+		for(int i=0; i<N+1; i++) {
+			arr[i] = new ArrayList<Integer>();
+		}
+		
+		for(int i=0; i<N-1; i++) {
+			st = new StringTokenizer(br.readLine());
+			
+			node1 = Integer.parseInt(st.nextToken());
+			node2 = Integer.parseInt(st.nextToken());
+			
+			arr[node1].add(node2);
+			arr[node2].add(node1);
+		}
+		
+		for(int i=1; i<N+1; i++) {
+			if(!visited[i]) {
+				dfs(i);
+			}
+		}
+		
+		for(int i=2; i<N+1; i++) {
+			bw.append(parent[i]+"\n");
+		}
+		
+		bw.flush();
+		bw.close();
+		br.close();
+		
+	}
+	
+	
+	private static void dfs(int v) {
+		
+		visited[v] = true;
+		
+		for(int val : arr[v]) {
+			if(!visited[val]) {
+				parent[val] = v;
+				dfs(val);
+			}
+		}
+		
+	}
+
+}
