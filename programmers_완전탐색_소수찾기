@@ -1,0 +1,99 @@
+package programmers_완전탐색_소수찾기;
+
+import java.util.HashMap;
+import java.util.Vector;
+
+// https://programmers.co.kr/learn/courses/30/lessons/42839
+public class Main {
+	
+	public static void main(String[] args) {
+		
+		Solution s = new Solution();
+		String numbers = "7834";
+		int answer = s.solution(numbers);
+		System.out.println(answer);
+	}
+
+}
+
+
+
+class Solution {
+	
+	Vector<String> vector = new Vector<String>();
+	HashMap<Integer, Boolean> map = new HashMap<Integer, Boolean>();
+	char[] nums;
+	boolean[] visited;
+	
+	public int solution(String numbers) {
+        
+        nums = new char[numbers.length()];
+        visited = new boolean[numbers.length()];
+        
+        for(int i=0; i<nums.length; i++) {
+        	nums[i] = numbers.charAt(i);
+        }
+        
+        dfs(0, "");
+        
+        //System.out.println(vector);
+        
+        for(String val : vector) {
+        	
+        	Integer num = Integer.parseInt(val);
+        	
+        	if(isPrime(num)) {
+        		map.put(num, isPrime(num));
+        	}
+        	
+        }
+        
+        //System.out.println(map);
+     
+        
+        return map.size();
+    }
+	
+	public void dfs(int depth, String str) {
+		
+		String prev;
+		
+		if(depth == nums.length) {
+			vector.add(str);
+			return;
+		}
+		
+		for(int i=0; i<nums.length; i++) {
+			if(!visited[i]) {
+				visited[i] = true;
+				prev = str;
+				str += nums[i];
+				vector.add(str);
+				dfs(depth+1, str);
+				visited[i] = false;
+				str = prev;
+				
+			}
+		}
+		
+	}
+    
+    public boolean isPrime(int number) {
+    	
+    	if(number <= 1) {
+    		return false;
+    	}
+    	
+    	for(int i=2; i<=Math.sqrt(number); i++) {
+    		if(number%i==0 && number != i) {
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    	
+    }
+    
+}
+
+
