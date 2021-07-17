@@ -1,0 +1,52 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+// https://www.acmicpc.net/problem/11055
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	static StringTokenizer st;
+	static int[] a;
+	static int[] d;
+	
+	public static void main(String[] args) throws IOException {
+		
+		int N;
+		int maxSum = 0;
+		N = Integer.parseInt(br.readLine());
+		a = new int[N];
+		d = new int[N];
+		st = new StringTokenizer(br.readLine());
+		
+		for(int i=0; i<N; i++) {
+			a[i] = Integer.parseInt(st.nextToken());
+			d[i] = a[i];
+		}
+		
+		maxSum = d[0];
+		
+		for(int i=0; i<N; i++) {
+			for(int j=0; j<i; j++) {
+				if(a[i]>a[j]) {
+					d[i] = Math.max(d[j]+a[i], d[i]);
+					maxSum = Math.max(maxSum, d[i]);
+				}
+			}
+		}
+		
+		bw.append(maxSum+"");
+		
+		bw.flush();
+		bw.close();
+		br.close();
+		
+		
+	}
+
+}
