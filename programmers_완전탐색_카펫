@@ -1,0 +1,39 @@
+package programmers_완전탐색_카펫;
+
+
+// https://programmers.co.kr/learn/courses/30/lessons/42842
+public class Main {
+	
+	public static void main(String[] args) {
+		
+		int[] answer;
+		int brown = 18;
+		int yellow = 6;
+				
+		Solution s = new Solution();
+		answer = s.solution(brown, yellow);
+		
+		System.out.println(answer[0]);
+		System.out.println(answer[1]);
+		
+	}
+
+}
+
+
+class Solution {
+    public int[] solution(int brown, int yellow) {
+        int[] answer = new int[2];
+        int sum = brown + yellow;
+        
+        for(int i=3; i<=sum; i++) {
+        	if(sum%i==0 && yellow%(i-2)==0 && yellow/(i-2) == sum/i - 2) {
+        		answer[0] = sum/i;
+        		answer[1] = i;
+        		break;
+        	}
+        }
+        
+        return answer;
+    }
+}
