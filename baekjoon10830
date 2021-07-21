@@ -1,0 +1,147 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+// https://www.acmicpc.net/problem/10830
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+	
+	static StringTokenizer st;
+	
+	static long[][] arr;
+	static long[][] arr2;
+	
+	static long[][] answer;
+	static long[][] tmp;
+	static long[][] unit;
+	
+	static int N;
+	static long B;
+	
+	static int exp;
+	
+	
+	public static void main(String[] args) throws IOException {
+		
+		st = new StringTokenizer(br.readLine());
+		
+		N = Integer.parseInt(st.nextToken());
+		B = Long.parseLong(st.nextToken());
+		
+		arr= new long[N][N];
+		answer = new long[N][N];
+		tmp = new long[N][N];
+		unit = new long[N][N];
+		
+		for(int i=0; i<N; i++) {
+			st = new StringTokenizer(br.readLine());
+			for(int j=0; j<N; j++) {
+				arr[i][j] = Long.parseLong(st.nextToken());
+			}
+		}
+		
+		for(int i=0; i<N; i++) {
+			for(int j=0; j<N; j++) {
+				if(i==j) {
+					unit[i][j] = 1;
+				}
+			}
+		}
+		
+		answer = unit;
+		
+		arr2 = getMultipliedMatrix(arr, arr);
+		
+		// 그냥 B를 log2(B) 로 해서 제곱을 몇번해야하는지 구하면 될듯 
+		exp = baseLog(B, 2);
+		
+		while(exp>0) {
+			
+			//System.out.println("exp : "+exp);
+			
+			int cnt = exp;
+			
+			while(cnt > 0) {
+				
+				if(cnt == exp) {
+					tmp = getMultipliedMatrix(arr2, unit);
+				}else {
+					tmp = getMultipliedMatrix(tmp, tmp);
+				}
+				
+				
+				cnt--;
+				
+			}
+			
+			answer = getMultipliedMatrix(answer, tmp);
+			
+			B -= Math.pow(2, exp);
+			
+			exp = baseLog(B, 2);
+			
+		}
+		
+		
+	
+		if(B==1) {
+			
+			answer = getMultipliedMatrix(arr, answer);
+			
+		}
+		
+
+		// 확인용 출력 
+		for(int i=0; i<N; i++) {
+			for(int j=0; j<N; j++) {
+				answer[i][j] = answer[i][j] % 1000;
+				
+				bw.append(answer[i][j]+" ");
+			}
+			bw.append("\n");
+		}
+		
+		
+		bw.flush();
+		bw.close();
+		br.close();
+		
+	}
+	
+	
+	// 행렬 곱을 구해주는 함수 
+	public static long[][] getMultipliedMatrix(long[][] xMatrix, long[][] yMatrix) {
+		
+		long[][] result = new long[N][N];
+		
+		for(int i=0; i<N; i++) {
+			for(int j=0; j<N; j++) {
+				for(int k=0; k<N; k++) {
+					result[i][j] += xMatrix[i][k]*yMatrix[k][j];
+					
+					if(result[i][j]>=1000) {
+						result[i][j] %= 1000;
+					}
+					
+				}
+				//System.out.print(result[i][j]+" ");
+			}
+			//System.out.println();
+		}
+		
+		return result;
+	}
+	
+	
+	static int baseLog(long x, long base) {
+		return (int) Math.floor(Math.log10(x) / Math.log10(base));
+	}
+	
+	
+
+}
