@@ -1,0 +1,75 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
+
+// https://www.acmicpc.net/problem/11000
+public class Main {
+	
+	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	
+	static StringTokenizer st;
+	
+	static int N;
+	
+	static PriorityQueue<Integer> queue = new PriorityQueue<Integer>();
+	
+	static int[][] arr;
+	
+	public static void main(String[] args) throws IOException {
+		
+		N = Integer.parseInt(br.readLine());
+		
+		arr = new int[N][2];
+		
+		int start, end;
+		
+		for(int i=0; i<N; i++) {
+			
+			st = new StringTokenizer(br.readLine());
+			
+			start = Integer.parseInt(st.nextToken());
+			end = Integer.parseInt(st.nextToken());
+			
+			arr[i][0] = start;
+			arr[i][1] = end;
+			
+		}
+		
+		Arrays.sort(arr, new Comparator<int[]>() {
+			@Override
+			public int compare(int[] o1, int[] o2) {
+				
+				if(o1[0]==o2[0]) {
+					return o1[1]-o2[1];
+				}
+				
+				return o1[0]-o2[0];
+			}
+		});
+		
+		queue.add(arr[0][1]);
+		
+		for(int i=1; i<N; i++) {
+			
+			if(queue.peek()>arr[i][0]) {
+				queue.add(arr[i][1]);
+			}else {
+				int newEnd = queue.poll();
+				newEnd = arr[i][1];
+				queue.add(newEnd);
+			}
+
+		}
+		
+		
+		System.out.println(queue.size());
+		
+		br.close();
+		
+	}
+
+}
